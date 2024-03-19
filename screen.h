@@ -12,13 +12,15 @@ public:
 	Screen()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
-		SDL_CreateWindowAndRenderer(640 * 2, 480 * 2, 0, &window, &renderer);
+		SDL_CreateWindowAndRenderer(780, 680, 0, &window, &renderer);
 		SDL_RenderSetScale(renderer, 2, 2);
 	}
+	//stores the x-axis and y-axis floating points
 	void pixel(float x, float y) 
 	{
 		points.emplace_back(x,y);
 	}
+	//renders and draws
 	void show() {
 		SDL_SetRenderDrawColor(renderer,0,0,0,255);
 		SDL_RenderClear(renderer);
