@@ -42,4 +42,7 @@ public:
 			}
 		}
 	}
+	void clear() {
+		points.clear();
+	}
 };
