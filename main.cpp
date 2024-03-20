@@ -1,6 +1,12 @@
 #include "screen.h"
 #include <cmath>
 
+struct Vec3 {
+    float x, y, z;
+};
+
+void rotate(Vec3& point, float x=1, float y=1, float z=1){
+}
 //This function draws a line on a screen using the Bresenham's algorithm
 void line(Screen& screen, float x1, float y1, float x2, float y2)
 {
@@ -26,11 +32,12 @@ int main(int argc, char* argv[]) {
         screen.pixel(rand() % 640,rand() % 480);
     }
     */
-    //drwaing a square
+    //drawing a square
     line(screen, 100, 100, 200, 100);
     line(screen, 200, 100, 200, 200);
     line(screen, 200, 200, 100, 200);
     line(screen, 100, 200, 100, 100);
+    //20:22
     while(true)
     {
         screen.show();
