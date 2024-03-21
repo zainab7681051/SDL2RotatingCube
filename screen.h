@@ -31,6 +31,7 @@ public:
 		} 
 		SDL_RenderPresent(renderer);
 	}
+	
 	void input() 
 	{
 		while (SDL_PollEvent(&e))
@@ -42,6 +43,7 @@ public:
 			}
 		}
 	}
+	//removes the rendered points
 	void clear() {
 		points.clear();
 	}

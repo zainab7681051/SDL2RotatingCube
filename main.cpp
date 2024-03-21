@@ -5,22 +5,21 @@ struct Vec3 {
     float x, y, z;
 };
 
+//The function takes a Vec3 object (representing a point in 3D space) and 
+// rotates it around the x, y, and z axes by the specified angles
 void rotate(Vec3& point, float x=1, float y=1, float z=1)
 {
-    float radius = 0;
-    radius = x;
-    point.y = std::cos(radius) * point.y - std::sin(radius) * point.z;
-    point.z = std::sin(radius) * point.y + std::cos(radius) * point.z;
+    float rad{x};
+    point.y = std::cos(rad) * point.y - std::sin(rad) * point.z;
+    point.z = std::sin(rad) * point.y + std::cos(rad) * point.z;
 
-    radius = y;
-    point.x = std::cos(radius) * point.x + std::sin(radius) * point.z;
-    point.z = - std::sin(radius) * point.x + std::cos(radius) * point.z;
+    rad = y;
+    point.x = std::cos(rad) * point.x + std::sin(rad) * point.z;
+    point.z = - std::sin(rad) * point.x + std::cos(rad) * point.z;
 
-    radius = z;
-    point.x = std::cos(radius) * point.x - std::sin(radius) * point.y;
-    point.y = std::sin(radius) * point.x + std::cos(radius) * point.y;
-
-
+    rad = z;
+    point.x = std::cos(rad) * point.x - std::sin(rad) * point.y;
+    point.y = std::sin(rad) * point.x + std::cos(rad) * point.y;
 }
 //This function draws a line on a screen using the Bresenham's algorithm
 void line(Screen& screen, float x1, float y1, float x2, float y2)
@@ -70,13 +69,25 @@ int main(int argc, char* argv[]) {
         {200,200,200},
         {100,200,200}
     };
-
+    Vec3 centerPoint{};
+    for (auto& p : points) {
+        centerPoint.x += p.x;        
+        centerPoint.y += p.y;        
+        centerPoint.z += p.z;
+    }
+    centerPoint.x /= points.size();
+    centerPoint.y /= points.size();
+    centerPoint.z /= points.size();
     while(true)
     {
         for (auto& p : points) {
+            p.x -= centerPoint.x;
+            p.y -= centerPoint.y;
+            p.z -= centerPoint.z;
             rotate(p, 0.002, 0.001, 0.004);
-        }
-        for (auto& p : points) {
+            p.x += centerPoint.x;
+            p.y += centerPoint.y;
+            p.z += centerPoint.z;
             screen.pixel(p.x, p.y);
         }
         screen.show();
