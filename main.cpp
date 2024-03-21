@@ -4,7 +4,9 @@
 struct Vec3 {
     float x, y, z;
 };
-
+struct Connection {
+    int a, b;
+};
 //The function takes a Vec3 object (representing a point in 3D space) and 
 // rotates it around the x, y, and z axes by the specified angles
 void rotate(Vec3& point, float x=1, float y=1, float z=1)
@@ -69,6 +71,13 @@ int main(int argc, char* argv[]) {
         {200,200,200},
         {100,200,200}
     };
+
+    std::vector<Connection> connections
+    {
+        { 0,4 }, { 1,5 }, { 2,6 }, { 3,7 },
+        { 0,1 }, { 1,2 }, { 2, 3}, { 3,0 },
+        { 4,5 }, { 5,6 }, { 6,7 }, { 7,4 }
+    };
     Vec3 centerPoint{};
     for (auto& p : points) {
         centerPoint.x += p.x;        
@@ -84,11 +93,17 @@ int main(int argc, char* argv[]) {
             p.x -= centerPoint.x;
             p.y -= centerPoint.y;
             p.z -= centerPoint.z;
-            rotate(p, 0.002, 0.001, 0.004);
+            rotate(p, 0.02, 0.01, 0.04);
             p.x += centerPoint.x;
             p.y += centerPoint.y;
             p.z += centerPoint.z;
             screen.pixel(p.x, p.y);
+        }
+        for (auto& conn : connections) {
+            line(screen, points[conn.a].x, 
+                points[conn.a].y, 
+                points[conn.b].x, 
+                points[conn.b].y);
         }
         screen.show();
         screen.clear();
