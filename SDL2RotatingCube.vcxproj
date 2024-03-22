@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="screen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="screen.h" />

@@ -1,6 +1,6 @@
 #include "screen.h"
 #include <cmath>
-
+#include <iostream>
 struct Vec3 {
     float x, y, z;
 };
@@ -41,25 +41,15 @@ void line(Screen& screen, float x1, float y1, float x2, float y2)
         );
     }
 }
+
+std::ostream& operator<<(std::ostream& o, const Vec3& v) {
+    return o << v.x<<"\t\t"<<v.y<<"\t\t"<<v.z<<"\n";
+}
+
 int main(int argc, char* argv[]) {
     Screen screen;
-    //////////////////////////
-    /*
-    * //drawing random dots
-    for (int i{0}; i < 100; ++i) {
-        screen.pixel(rand() % 640,rand() % 480);
-    }
-    */
-    
-    //drawing a square
-    /*
-    line(screen, 100, 100, 200, 100);
-    line(screen, 200, 100, 200, 200);
-    line(screen, 200, 200, 100, 200);
-    line(screen, 100, 200, 100, 100);
-    */
 
-   //////////////////////////////
+    // Initialization of points vector to define the vertices of the cube
     std::vector<Vec3> points{
         {100,100,100},
         {200,100,100},
@@ -72,12 +62,15 @@ int main(int argc, char* argv[]) {
         {100,200,200}
     };
 
+    //connections between the edges of the cube
     std::vector<Connection> connections
     {
         { 0,4 }, { 1,5 }, { 2,6 }, { 3,7 },
         { 0,1 }, { 1,2 }, { 2, 3}, { 3,0 },
         { 4,5 }, { 5,6 }, { 6,7 }, { 7,4 }
     };
+
+    // Calculation of the center point of the cube using the points vector
     Vec3 centerPoint{};
     for (auto& p : points) {
         centerPoint.x += p.x;        
@@ -87,24 +80,32 @@ int main(int argc, char* argv[]) {
     centerPoint.x /= points.size();
     centerPoint.y /= points.size();
     centerPoint.z /= points.size();
-    while(true)
-    {
+
+    const float xAngle{ 0.02f }, yAngle{ 0.01f }, zAngle{ 0.04f };
+
+    while (true) {
+
         for (auto& p : points) {
             p.x -= centerPoint.x;
             p.y -= centerPoint.y;
             p.z -= centerPoint.z;
-            rotate(p, 0.02, 0.01, 0.04);
+            rotate(p, xAngle, yAngle, zAngle);
             p.x += centerPoint.x;
             p.y += centerPoint.y;
             p.z += centerPoint.z;
+            std::cout << p;
             screen.pixel(p.x, p.y);
         }
+
         for (auto& conn : connections) {
-            line(screen, points[conn.a].x, 
-                points[conn.a].y, 
-                points[conn.b].x, 
+            line(screen, points[conn.a].x,
+                points[conn.a].y,
+                points[conn.b].x,
                 points[conn.b].y);
         }
+        //for (auto& p : points) {
+        //    std::cout << p;
+        //}
         screen.show();
         screen.clear();
         screen.input();
